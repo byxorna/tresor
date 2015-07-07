@@ -14,6 +14,8 @@ Attributes associated with asset?
 Assets have states: unused, spinning up, active, spinning down, problem (maint)
 Can there be fewer stauses than collins? What about mesos task states? failed? lost?
 
+Can an asset actually be a meta asset? Perhaps a "pool" is actually just bound to a query for other assets?
+
 ### Attributes
 
 * type - server, switch, pool, blast zone, config. user creatable, can be anything
@@ -22,6 +24,8 @@ Can there be fewer stauses than collins? What about mesos task states? failed? l
 * attributes - arbitrary key-value pairs. is this json?
 
 ## Linking
+
+*TODO* What does linking gain over normal key:value attributes like collins has? A: key-value doesnt allow the grouping itsself to be managable. You end up talking about either queries or materialized sets of assets (out of date), instead of passing around the grouping object (pool/cluster).
 
 Things have links. Some are heirarchical (has-a), some represent membership (is-a? part-of). A link between a VM and the server hosting it is a good example. The link may change atomically (live vm migration), or become broken for a time (pause VM, move to cold storage, bring up elsewhere).
 
@@ -51,6 +55,8 @@ Ip allocation backend? or delegate to something else?
 Would be simple to implement...
 Separate enough to allow external providers?
 
+Could this be a plugin?
+
 ## Querying
 
 Most questions are either "give me id X", or "what things are in this thing".
@@ -60,6 +66,15 @@ Should tresor perform all filtering or just return simple queries and have clien
 Support for searching or not? Perhaps "give me Xs in Y" only. Give me containers in this rack/pool/server/blast area.
   -> how do you handle nesting assets? do you need to traverse all things linked to find their links to traverse them?
 
+## Plugins
+
+Allow interesting, non-core implementations? For example, IPAM could be a plugin, with its own namespace and just register as a handler.
+Plugins could work for specific types of assets, and implement their own business logic without cluttering the core of Tresor. A LSHW plugin could define a minimum schema lshw reports conform to, and performs normalization and storage. Plugins would need to be able to associate some storage with an asset, so querying for an asset could return desired data.
+
+* IPAM
+* LSHW
+* LLDP
+* IPMI
 
 ## Other
 
