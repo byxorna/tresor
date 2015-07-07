@@ -82,6 +82,8 @@ Plugins could work for specific types of assets, and implement their own busines
 * IPMI
 * Firehose
 
+Go doesnt do dynamic loading, so possibility to make it simple is like http://golang.org/src/crypto/crypto.go, which makes each hash register itsself in its `init()` with `RegisterHash()` into a hashmap.
+
 ## Other
 
 Pluggable backends for storage?
