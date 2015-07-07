@@ -44,10 +44,15 @@ Any difference between heirarchical links and membership links? Server is in a r
 
 What happens to a link when a thing thats linked to goes away? Server goes into spinning down, do containers loose membership in clusters? Does spinning down status transfer to all downstream linked items? (that is a horrible idea, because linking can represent physical connection but not dependence. i.e. im on a switch, but a switch going into problem doesnt mean i stop serving traffic necessarily).
 
-### Upstream/downstream status
+### Upstream/downstream status and health
 
-A thing can have a status (i.e. problem). Can this effect upstream or downstream links? ("an upstream thing is under maintenance/spinning down"). When you change status can you specify if a status should transfer to other items? How do you represent upstream degraded on an asset?
+A thing can have a status (i.e. problem). Can this effect upstream or downstream links? ("an upstream switch is under maintenance/spinning down"). When you change status can you specify if a status should transfer to other items? How do you represent upstream degraded on an asset?
 
+How does this tie into arbitrary status reports (binary health checks, monitoring, sanity checks)? How can you report multiple statuses to a given asset? Is health a plugin? I would want to report multiple health statuses for an asset (local process status, proxy heartbeat, remote health check) and make changes available to a firehose?
+
+## Firehose
+
+Should support evented everything. Any change of an asset will generate an event to subscribers. Should probably be a plugin, use kafka, have firehose-like semantics. Could tie into a tree-like data-store with watches.
 
 ## IPAM
 
@@ -75,6 +80,7 @@ Plugins could work for specific types of assets, and implement their own busines
 * LSHW
 * LLDP
 * IPMI
+* Firehose
 
 ## Other
 
